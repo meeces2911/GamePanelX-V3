@@ -21,7 +21,7 @@ steam_login_code=
 steam_shared_content=
 debug_on=
 
-while getopts "i:u:g:l:p:c:d:sc:" OPTION
+while getopts "i:u:g:l:p:c:d:x:" OPTION
 do
      case $OPTION in
 	i)
@@ -45,7 +45,7 @@ do
 	d)
 		debug_on=$OPTARG
 		;;
-	sc)
+	x)
 		steam_shared_content=$OPTARG
 		;;
 	?)
@@ -71,6 +71,8 @@ then
         $cback "$callback_url&do=tpl_status&update=failed" >> /dev/null
         exit
 fi
+
+echo "Steam SC = $steam_shared_content"
 
 # Get to the right directory
 steam_tmp=$HOME/tmp/$tpl_id
@@ -110,7 +112,7 @@ do
                 echo "SteamCMDInstall: ($(date)) Beginning template creation process (Path: $this_path, TplID: $tpl_id ..." >> $steam_log
 
 		if [ "$debug_on" ]; then add_debug=" -d yes"; else add_debug=""; fi
-		if [ "$steam_shared_content" == "1" ]; then add_sc="-sc yes"; else add_sc=""; fi
+		if [ "$steam_shared_content" == "1" ]; then add_sc="-x yes"; else add_sc=""; fi
 
                 $HOME/scripts/CreateTemplate -p $this_path -i $tpl_id -s yes -u "$callback_url" $add_debug $add_sc
 

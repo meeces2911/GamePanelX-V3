@@ -16,7 +16,7 @@ from_steam=
 cback="wget -qO-"
 debug_on=
 
-while getopts "p:i:u:s:d:sc:" OPTION
+while getopts "p:i:u:s:d:x:" OPTION
 do
      case $OPTION in
         p)
@@ -34,7 +34,7 @@ do
 	d)
 		debug_on=$OPTARG
 		;;
-	sc)
+	x)
 		shared_content=$OPTARG
 		;;
         ?)
