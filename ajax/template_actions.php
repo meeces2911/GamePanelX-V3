@@ -10,6 +10,7 @@ $url_netid    = $GPXIN['netid'];
 $url_do       = $GPXIN['do']; // save or delete
 $url_descr    = $GPXIN['desc'];
 $url_default  = $GPXIN['default'];
+$url_shared_content  = $GPXIN['sc'];
 
 require(DOCROOT.'/includes/classes/templates.php');
 $Templates  = new Templates;
@@ -18,11 +19,11 @@ $Templates  = new Templates;
 // Create template
 if($url_do == 'create')
 {
-    $url_gameid      = $GPXIN['gameid'];
-    $url_file_path   = $GPXIN['file_path'];
-    $url_description = $GPXIN['description'];
+    $url_gameid          = $GPXIN['gameid'];
+    $url_file_path       = $GPXIN['file_path'];
+    $url_description     = $GPXIN['description'];
 
-    echo $Templates->create($url_netid,$url_gameid,$url_file_path,$url_description,$url_default);
+    echo $Templates->create($url_netid,$url_gameid,$url_file_path,$url_description,$url_default,$url_shared_content);
 }
 
 // Save template
@@ -33,11 +34,14 @@ elseif($url_do == 'save')
     $row_gid      = mysql_fetch_row($result_gid);
     $this_gameid  = $row_gid[0];
     
+    // If this is shared content, it should never be the default template
+    if($url_shared_ontent) $url_default = 0;
+    
     // If default, make all others not default
     if($url_default) @mysql_query("UPDATE templates SET is_default = '0' WHERE cfgid = '$this_gameid' AND netid = '$url_netid'") or die('Failed to update template settings (1)');
     
     // Update values
-    @mysql_query("UPDATE templates SET is_default = '$url_default',description = '$url_descr' WHERE id = '$url_id'") or die('Failed to update template settings (2)');
+    @mysql_query("UPDATE templates SET is_default = '$url_default',is_shared_content = '$url_shared_content',description = '$url_descr' WHERE id = '$url_id'") or die('Failed to update template settings (2)');
     
     echo 'success';
 }

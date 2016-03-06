@@ -3,7 +3,7 @@
 class Templates
 {
     // Create a new template
-    public function create($netid,$gameid,$file_path,$description,$is_def)
+    public function create($netid,$gameid,$file_path,$description,$is_def,$is_sc)
     {
         if(empty($netid)) return 'Templates: No network ID provided';
         elseif(empty($gameid)) return 'Templates: No game ID provided';
@@ -28,12 +28,15 @@ class Templates
         else $tpl_status = 'running';
         
 	################################################################
+ 
+        // If this is shared content, it should never be the default template
+        if($is_sc) $is_def = 0;
         
         // Mark old defaults as non-default now
         if($is_def) @mysql_query("UPDATE templates SET is_default = '0' WHERE netid = '$netid' AND cfgid = '$gameid'");
         
         // Insert
-        @mysql_query("INSERT INTO templates (netid,cfgid,date_created,is_default,status,token,description,file_path) VALUES('$netid','$gameid',NOW(),'$is_def','$tpl_status','$remote_token','$description','$file_path')") or die('Failed to insert template');
+        @mysql_query("INSERT INTO templates (netid,cfgid,date_created,is_default,is_shared_content,status,token,description,file_path) VALUES('$netid','$gameid',NOW(),'$is_def','$is_sc','$tpl_status','$remote_token','$description','$file_path')") or die('Failed to insert template');
         $tpl_id = mysql_insert_id();
         if(empty($tpl_id)) return 'No template ID created!  An unknown error occured.';
         
@@ -90,7 +93,7 @@ class Templates
             $cfg_steam_user=substr($cfg_steam_user, 6);$cfg_steam_user=substr($cfg_steam_user, 0, -6);$cfg_steam_user=base64_decode($cfg_steam_user);
             $cfg_steam_pass=substr($cfg_steam_pass, 6);$cfg_steam_pass=substr($cfg_steam_pass, 0, -6);$cfg_steam_pass=base64_decode($cfg_steam_pass);
             
-            $net_cmd  = "SteamCMDInstall -g '$steam_name' -i $tpl_id -l '$cfg_steam_user' -p '$cfg_steam_pass' -c '$cfg_steam_auth' -u '$this_page' >> /dev/null 2>&1 &";
+            $net_cmd  = "SteamCMDInstall -g '$steam_name' -i $tpl_id -l '$cfg_steam_user' -p '$cfg_steam_pass' -c '$cfg_steam_auth' -u '$this_page' -sc '$is_sc' >> /dev/null 2>&1 &";
             if(GPXDEBUG) $net_cmd .= ' -d yes';
         }
         

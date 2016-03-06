@@ -128,6 +128,16 @@ $(document).ready(function(e) {
     </select>
   </td>
 </tr>
+<tr>
+  <td><b><?php echo $lang['shared_content']; ?>:</b></td>
+  <td>
+    <select class="dropdown" id="create_tpl_is_shared_content" style="width:435px;">
+    <?php
+    echo '<option value="1">' . $lang['yes'] . '</option><option value="0" selected>' . $lang['no'] . '</option>';
+    ?>
+    </select>
+  </td>
+</tr>
 
 <tr>
   <td colspan="2">&nbsp;</td>

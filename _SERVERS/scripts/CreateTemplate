@@ -16,7 +16,7 @@ from_steam=
 cback="wget -qO-"
 debug_on=
 
-while getopts "p:i:u:s:d:" OPTION
+while getopts "p:i:u:s:d:sc:" OPTION
 do
      case $OPTION in
         p)
@@ -33,6 +33,9 @@ do
 	     	;;
 	d)
 		debug_on=$OPTARG
+		;;
+	sc)
+		shared_content=$OPTARG
 		;;
         ?)
              	exit
@@ -74,6 +77,24 @@ then
 	echo "CreateTemplate: Failed: Template directory ($HOME/$tpl_file_path) is empty.  Exiting."
 	echo "CreateTemplate: Failed: Template directory ($HOME/$tpl_file_path) is empty.  Exiting." >> $tpl_log
 	$cback "$callback_url&do=tpl_status&status=failed" >> /dev/null
+	exit
+fi
+
+if [ "$shared_content" ]; then
+	if [ "$debug_on" ]; then echo "CreateTemplate: Bypassing TAR and moving to shared dir instead ..."; fi
+	
+	# Move to tmp dir
+	cd $HOME/$tpl_file_path
+	
+	#Create the shared content directory if it doesn't exist
+	mkdir -p $HOME/templates/content
+	
+	#Move the template to the shared content directory
+	mv * ../templates/content/$tpl_id
+	
+	# Remove any temporary files
+	rm -fr $HOME/tmp/$tpl_id
+	
 	exit
 fi
 

@@ -58,9 +58,10 @@ function template_save(tplID,netID)
         return false;
     }
     
-    var desc      = encodeURIComponent($('#desc').val());
-    var isDefault = $('#is_default').val();
-    var datastr   = "&id="+tplID+"&netid="+netID+"&do=save&desc="+desc+"&default="+isDefault;
+    var desc            = encodeURIComponent($('#desc').val());
+    var isDefault       = $('#is_default').val();
+    var isSharedContent = $('#is_shared_content').val();
+    var datastr         = "&id="+tplID+"&netid="+netID+"&do=save&desc="+desc+"&default="+isDefault+"&sc="+isSharedContent;
     
     $.ajax({
         url: ajaxURL,
@@ -128,6 +129,7 @@ function template_create()
     var netID     = $('#create_tpl_network').val();
     var filePath  = $('#create_tpl_file_path').val();
     var tplisDef  = $('#create_tpl_is_default').val();
+    var tplisSc   = $('#create_tpl_is_shared_content').val();
     var descript  = $('#create_tpl_desc').val();
  
     // Check empty
@@ -145,7 +147,7 @@ function template_create()
     
     $.ajax({
         url: ajaxURL,
-        data: "a=template_actions&do=create&gameid="+gameID+"&netid="+netID+"&default="+tplisDef+"&file_path="+filePath+"&description="+descript,
+        data: "a=template_actions&do=create&gameid="+gameID+"&netid="+netID+"&default="+tplisDef+"&sc="+tplisSc+"&file_path="+filePath+"&description="+descript,
         beforeSend:function(){
             // Show progress
             infobox('i','<i>Starting ...</i>');

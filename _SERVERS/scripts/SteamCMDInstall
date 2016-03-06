@@ -18,20 +18,21 @@ steam_tmp=
 steam_login_user=
 steam_login_pass=
 steam_login_code=
+steam_shared_content=
 debug_on=
 
-while getopts "i:u:g:l:p:c:d:" OPTION
+while getopts "i:u:g:l:p:c:d:sc:" OPTION
 do
      case $OPTION in
 	i)
-	     	tpl_id=$OPTARG
-	     	;;
+	   	tpl_id=$OPTARG
+	   	;;
 	u)
 		callback_url=$OPTARG
-	     	;;
-        g)
-             	steam_game=$OPTARG
-             	;;
+	   	;;
+	g)
+		steam_game=$OPTARG
+		;;
 	l)
 		steam_login_user=$OPTARG
 		;;
@@ -41,12 +42,15 @@ do
 	c)
 		steam_login_code=$OPTARG
 		;;
-        d)
-             	debug_on=$OPTARG
-             	;;
-        ?)
-             	exit
-             	;;
+	d)
+		debug_on=$OPTARG
+		;;
+	sc)
+		steam_shared_content=$OPTARG
+		;;
+	?)
+		exit
+		;;
      esac
 done
 
@@ -106,8 +110,9 @@ do
                 echo "SteamCMDInstall: ($(date)) Beginning template creation process (Path: $this_path, TplID: $tpl_id ..." >> $steam_log
 
 		if [ "$debug_on" ]; then add_debug=" -d yes"; else add_debug=""; fi
+		if [ "$steam_shared_content" == "1" ]; then add_sc="-sc yes"; else add_sc=""; fi
 
-                $HOME/scripts/CreateTemplate -p $this_path -i $tpl_id -s yes -u "$callback_url" $add_debug
+                $HOME/scripts/CreateTemplate -p $this_path -i $tpl_id -s yes -u "$callback_url" $add_debug $add_sc
 
                 break
                 exit

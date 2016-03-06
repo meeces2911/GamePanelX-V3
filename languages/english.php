@@ -131,6 +131,7 @@ $lang['delete_tp']          = 'Delete this template';
 $lang['create_tp']          = 'Create Template';
 $lang['file_path']          = 'File Path';
 $lang['browse']             = 'Browse';
+$lang['shared_content']     = 'Shared Content';
 
 // Network
 $lang['network_server']     = 'Network Server';

@@ -11,6 +11,7 @@ $result_srv = @mysql_query("SELECT
                               t.netid,
                               t.date_created,
                               t.is_default,
+                              t.is_shared_content,
                               t.status,
                               t.size,
                               t.file_path,
@@ -28,17 +29,18 @@ $result_srv = @mysql_query("SELECT
 
 while($row_tpl  = mysql_fetch_array($result_srv))
 {
-    $tp_id        = $row_tpl['id'];
-    $tp_netid     = $row_tpl['netid'];
-    $tp_date      = $row_tpl['date_created'];
-    $tp_default   = $row_tpl['is_default'];
-    $tp_status    = $row_tpl['status'];
-    $tp_size      = $row_tpl['size'];
-    $tpl_filepath = $row_tpl['file_path'];
-    $tp_descr     = stripslashes($row_tpl['description']);
-    $tp_ip        = $row_tpl['ip'];
-    $tp_game      = $row_tpl['name'];
-    $tp_loc       = stripslashes($row_tpl['location']);
+    $tp_id               = $row_tpl['id'];
+    $tp_netid            = $row_tpl['netid'];
+    $tp_date             = $row_tpl['date_created'];
+    $tp_default          = $row_tpl['is_default'];
+    $tp_shared_content   = $row_tpl['is_shared_content'];
+    $tp_status           = $row_tpl['status'];
+    $tp_size             = $row_tpl['size'];
+    $tpl_filepath        = $row_tpl['file_path'];
+    $tp_descr            = stripslashes($row_tpl['description']);
+    $tp_ip               = $row_tpl['ip'];
+    $tp_game             = $row_tpl['name'];
+    $tp_loc              = stripslashes($row_tpl['location']);
 }
 
 if($tp_status == 'complete') $tp_status = '<font color="green">'.ucwords($tp_status).'</font>';
@@ -79,6 +81,17 @@ elseif($tp_status == 'failed') $tp_status = '<font color="red">'.ucwords($tp_sta
     <select class="dropdown" id="is_default">
     <?php
     if($tp_default) echo '<option value="1" selected>' . $lang['yes'] . '</option><option value="0">' . $lang['no'] . '</option>';
+    else echo '<option value="1">' . $lang['yes'] . '</option><option value="0" selected>' . $lang['no'] . '</option>';
+    ?>
+    </select>
+  </td>
+</tr>
+<tr>
+  <td><b><?php echo $lang['shared_content']; ?>:</b></td>
+  <td>
+    <select class="dropdown" id="is_shared_content">
+    <?php
+    if($tp_shared_content) echo '<option value="1" selected>' . $lang['yes'] . '</option><option value="0">' . $lang['no'] . '</option>';
     else echo '<option value="1">' . $lang['yes'] . '</option><option value="0" selected>' . $lang['no'] . '</option>';
     ?>
     </select>
