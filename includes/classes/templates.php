@@ -93,7 +93,7 @@ class Templates
             $cfg_steam_user=substr($cfg_steam_user, 6);$cfg_steam_user=substr($cfg_steam_user, 0, -6);$cfg_steam_user=base64_decode($cfg_steam_user);
             $cfg_steam_pass=substr($cfg_steam_pass, 6);$cfg_steam_pass=substr($cfg_steam_pass, 0, -6);$cfg_steam_pass=base64_decode($cfg_steam_pass);
             
-            $net_cmd  = "SteamCMDInstall -g '$steam_name' -i $tpl_id -l '$cfg_steam_user' -p '$cfg_steam_pass' -c '$cfg_steam_auth' -u '$this_page' -sc '$is_sc' >> /dev/null 2>&1 &";
+            $net_cmd  = "SteamCMDInstall -g '$steam_name' -i $tpl_id -l '$cfg_steam_user' -p '$cfg_steam_pass' -c '$cfg_steam_auth' -u '$this_page' -x '$is_sc' >> /dev/null 2>&1 &";
             if(GPXDEBUG) $net_cmd .= ' -d yes';
         }
         
