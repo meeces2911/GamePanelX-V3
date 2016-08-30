@@ -1,10 +1,10 @@
+=============
+
 GamePanelX-V3
 
 Created by Ryan Gehrig
 
-=============
-
-GamePanelX is a Free and Open Source Game Control Panel.
+GamePanelX is a Free and Open Source Game Control Panel.  It was the first full-featured, useful game control panel which started in 2007.
 
 
 Website: https://gamepanelx.com/
